@@ -19,7 +19,7 @@ def load_image(image_path):
     image = transform(image).unsqueeze(0)
     return image
 
-content_image = load_image("cat.jpeg")
+content_image = load_image("content.jpeg")
 style_image = load_image("pattern.jpeg")
 
 # Define a function to display images
@@ -119,7 +119,7 @@ model, content_losses, style_losses = get_model_and_losses(cnn, style_image, con
 input_image = content_image.clone()
 optimizer = optim.LBFGS([input_image.requires_grad_()])
 
-def run_style_transfer(model, content_losses, style_losses, input_image, num_steps=100, style_weight=1000000, content_weight=1):
+def run_style_transfer(model, content_losses, style_losses, input_image, num_steps=30, style_weight=1000000, content_weight=1):
     print('Building the style transfer model..')
     print('Optimizing..')
     run=[0]
@@ -145,7 +145,7 @@ def run_style_transfer(model, content_losses, style_losses, input_image, num_ste
             loss.backward()
 
             run[0]+=1
-            if run[0]%50==0:
+            if run[0]%15==0:
                 print("run {}:".format(run[0]))
                 print('Style Loss: {:4f} Content Loss: {:4f}'.format(style_score.item(),content_score.item()))
                 print()
