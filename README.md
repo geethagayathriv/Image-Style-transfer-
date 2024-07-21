@@ -25,3 +25,5 @@ Execute the script model.py to perform the style transfer:
 ```bash
 python model.py
 ```
+
+Just checking, how pull request work
