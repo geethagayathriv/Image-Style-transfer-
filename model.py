@@ -16,11 +16,11 @@ transform = transforms.Compose([
 # Load content and style images
 def load_image(image_path):
     image = Image.open(image_path)
-    image = transforms(image).unsqueeze(0)
+    image = transform(image).unsqueeze(0)
     return image
 
-content_image = load_image("path")
-style_image = load_image("path")
+content_image = load_image("cat.jpeg")
+style_image = load_image("pattern.jpeg")
 
 # Define a function to display images
 def imshow(tensor, title=None):
@@ -67,7 +67,7 @@ class StyleLoss(nn.Module):
         return G.div(a * b * c * d)
 
 def get_model_and_losses(cnn, style_img, content_img):
-    cnn = cnn.features.eval()
+    # cnn = cnn.features.to(device).eval()
 
     content_layers=['conv_4']
     style_layers = ['conv_1','conv_2','con_3', 'conv_4','conv_5']
@@ -159,6 +159,11 @@ def run_style_transfer(model, content_losses, style_losses, input_image, num_ste
     return input_image
 
 output = run_style_transfer(model, content_losses, style_losses, input_image)
+
+output_image = output.cpu().clone()
+output_image = output_image.squeeze(0)
+output_image = transforms.ToPILImage()(output_image)
+output_image.save("output_image.jpg")
 
 plt.figure()
 imshow(output, title ='Output Image')
