@@ -18,8 +18,10 @@ You can install the required packages using pip:
 
 ```bash
 pip install -r requirements.txt
+```
 
 Execute the script model.py to perform the style transfer:
 
 ```bash
 python model.py
+```
